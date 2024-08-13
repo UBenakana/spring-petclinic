@@ -46,6 +46,6 @@ stages:
       inputs:
         pollingTimeoutSec: '300'
     
-    - task: SonarQubeAnalyze@6
-      inputs:
-        jdkversion: 'JAVA_HOME'
+    #- task: SonarQubeAnalyze@6
+    #  inputs:
+    #    jdkversion: 'JAVA_HOME'
