@@ -28,5 +28,4 @@ stages:
     - script: bash |
         mvn clean package -Dcheckstyle.skip=true sonar:sonar \
         -Dsonar.login=$(SONAR_TOKEN) \
-        -Dsonar.exclusions=**/*.bin \
         -Dsonar.java.binaries=.
