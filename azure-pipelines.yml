@@ -23,25 +23,30 @@ stages:
         sonarQubeRunAnalysis: false       
 
   - job: SonarQube
+    dependsOn: Maven
     steps:
-    - task: SonarQubePrepare@6
-      inputs:
-        SonarQube: 'SonarQube'
-        scannerMode: 'CLI'
-        configMode: 'manual'
-        cliProjectKey: 'sqa_4b65ec74b10201a234470bf64b2915a2fdeeff74'
-        cliProjectName: 'spring-petclinic'
-        cliSources: '.'
-        extraProperties: |
-          # Additional properties that will be passed to the scanner, 
-          # Put one key=value per line, example:
-          # sonar.exclusions=**/*.bin
-          sonar.java.binaries=.
-          # Uncomment if using Developer Edition or higher for branch analysis
-          # sonar.branch.name=$(Build.SourceBranchName)
+    - script: bash |
+       mvn clean package -Dcheckstyle.skip=true sonar:sonar
 
-    - task: SonarQubePublish@6
-      inputs:
-        pollingTimeoutSec: '300'
-
-    - task: SonarQubeAnalyze@6
+    
+    #- task: SonarQubePrepare@6
+    #  inputs:
+    #    SonarQube: 'SonarQube'
+    #    scannerMode: 'CLI'
+    #    configMode: 'manual'
+    #    cliProjectKey: 'sqa_4b65ec74b10201a234470bf64b2915a2fdeeff74'
+    #    cliProjectName: 'spring-petclinic'
+    #    cliSources: '.'
+    #    extraProperties: |
+    #      # Additional properties that will be passed to the scanner, 
+    #      # Put one key=value per line, example:
+    #      # sonar.exclusions=**/*.bin
+    #      sonar.java.binaries=.
+    #      # Uncomment if using Developer Edition or higher for branch analysis
+    #      # sonar.branch.name=$(Build.SourceBranchName)
+#
+    #- task: SonarQubePublish@6
+    #  inputs:
+    #    pollingTimeoutSec: '300'
+#
+    #- task: SonarQubeAnalyze@6
