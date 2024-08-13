@@ -26,7 +26,7 @@ stages:
     dependsOn: Maven
     steps:
     - script: bash |
-       mvn clean package -Dcheckstyle.skip=true sonar:sonar
+       mvn clean package -Dcheckstyle.skip=true sonar:sonar -Dsonar.login=$(SONAR_TOKEN)
 
     
     #- task: SonarQubePrepare@6
