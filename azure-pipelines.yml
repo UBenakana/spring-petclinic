@@ -1,7 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
 name: spring-petclinic
 
 trigger:
@@ -17,14 +13,14 @@ stages:
     steps:
     - task: Maven@4
       inputs:
-          mavenPomFile: 'pom.xml'
-          publishJUnitResults: true
-          testResultsFiles: '**/surefire-reports/TEST-*.xml'
-          javaHomeOption: 'JDKVersion'
-          mavenVersionOption: 'Default'
-          mavenAuthenticateFeed: false
-          effectivePomSkip: false
-          sonarQubeRunAnalysis: false       
+        mavenPomFile: 'pom.xml'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false       
 
   - job: SonarQube
     steps:
@@ -41,11 +37,18 @@ stages:
           # Put one key=value per line, example:
           # sonar.exclusions=**/*.bin
           sonar.java.binaries=.
-          #Dsonar.branch.name=$CI_COMMIT_REF_NAME
+          # Uncomment if using Developer Edition or higher for branch analysis
+          # sonar.branch.name=$(Build.SourceBranchName)
+
+    - script: |
+        chmod +x sonar_analyze.sh
+        ./sonar_analyze.sh
+      displayName: 'Run SonarQube Analysis via Shell Script'
+
     - task: SonarQubePublish@6
       inputs:
         pollingTimeoutSec: '300'
-    
+
     #- task: SonarQubeAnalyze@6
     #  inputs:
     #    jdkversion: 'JAVA_HOME'
