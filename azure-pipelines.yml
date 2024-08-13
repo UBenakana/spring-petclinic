@@ -25,4 +25,27 @@ stages:
           mavenAuthenticateFeed: false
           effectivePomSkip: false
           sonarQubeRunAnalysis: false
+
+  - job: SonarQube
+    steps:      
+    - task: SonarQubePrepare@6
+      inputs:
+        SonarQube: 'SonarQube'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'sqa_4b65ec74b10201a234470bf64b2915a2fdeeff74'
+        cliProjectName: 'spring-petclinic'
+        cliSources: '.'
+        extraProperties: |
+          # Additional properties that will be passed to the scanner, 
+          # Put one key=value per line, example:
+          # sonar.exclusions=**/*.bin
+          sonar.java.binaries=.
+    - task: SonarQubePublish@6
+      inputs:
+        pollingTimeoutSec: '300'
+
+    - task: SonarQubeAnalyze@6
+      inputs:
+        jdkversion: 'JAVA_HOME'
   
