@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: Devops
+  name: $(agent)
 
 steps:
 - script: echo Hello, world!
