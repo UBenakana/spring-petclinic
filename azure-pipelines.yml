@@ -40,15 +40,10 @@ stages:
           # Uncomment if using Developer Edition or higher for branch analysis
           # sonar.branch.name=$(Build.SourceBranchName)
 
-    - script: |
-        chmod +x sonar_analyze.sh
-        ./sonar_analyze.sh
-      displayName: 'Run SonarQube Analysis via Shell Script'
-
     - task: SonarQubePublish@6
       inputs:
         pollingTimeoutSec: '300'
 
-    #- task: SonarQubeAnalyze@6
-    #  inputs:
-    #    jdkversion: 'JAVA_HOME'
+    - task: SonarQubeAnalyze@6
+      inputs:
+        jdkversion: 'JAVA_HOME'
