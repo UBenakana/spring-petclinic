@@ -13,7 +13,7 @@ stages:
     steps:
     
     - script: bash |
-       mvn sonar:sonar
+       mvn sonar:sonar -X
     - task: Maven@4
       inputs:
         mavenPomFile: 'pom.xml'
