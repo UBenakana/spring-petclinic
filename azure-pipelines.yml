@@ -23,6 +23,7 @@ stages:
         sonarQubeRunAnalysis: false
 
     - task: SonarQubePrepare@6
+    - task: SonarQubePrepare@6
       inputs:
         SonarQube: 'SonarQube'
         scannerMode: 'CLI'
@@ -30,6 +31,11 @@ stages:
         cliProjectKey: 'Petclinic'
         cliProjectName: 'Petclinic'
         cliSources: '.'
+        extraProperties: |
+          # Additional properties that will be passed to the scanner, 
+          # Put one key=value per line, example:
+          # sonar.exclusions=**/*.bin
+          sonar.branch.name=main
 
     - task: SonarQubePublish@6
       inputs:
