@@ -25,7 +25,11 @@ stages:
     - task: SonarQubePrepare@6
       inputs:
         SonarQube: 'SonarQube'
-        scannerMode: 'Other'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'Petclinic'
+        cliProjectName: 'Petclinic'
+        cliSources: '.'
 
     - task: SonarQubePublish@6
       inputs:
