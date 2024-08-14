@@ -23,7 +23,6 @@ stages:
         sonarQubeRunAnalysis: false
 
     - task: SonarQubePrepare@6
-    - task: SonarQubePrepare@6
       inputs:
         SonarQube: 'SonarQube'
         scannerMode: 'CLI'
