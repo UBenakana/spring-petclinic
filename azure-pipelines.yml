@@ -4,7 +4,7 @@ trigger:
 - main
 
 pool:
-  name: $(agent1)
+  name: Devops
 
 stages:
 - stage: Build 
@@ -20,11 +20,4 @@ stages:
         mavenVersionOption: 'Default'
         mavenAuthenticateFeed: false
         effectivePomSkip: false
-        sonarQubeRunAnalysis: false       
-
-  - job: SonarQube
-    dependsOn: Maven
-    steps:
-    - script: bash |
-        mvn clean package -Dcheckstyle.skip=true sonar:sonar \
-        -Dsonar.login=$(SONAR_TOKEN)
+        sonarQubeRunAnalysis: false
