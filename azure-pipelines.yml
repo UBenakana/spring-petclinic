@@ -14,11 +14,24 @@ stages:
     steps:
       - task: SonarQubePrepare@6
         inputs:
-         SonarQube: # string. Required. SonarQube Server Endpoint. 
-         scannerMode: 'other'
-         projectKey: 'Petclinic'
-         projectName: 'Petclinic'
-         projectVersion: '$(Build.BuildId)'
+          SonarQube: 'SonarQube'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: 'Petclinic'
+          cliProjectName: 'Petclinic2'
+          cliSources: '.'
+          extraProperties: |
+            # Additional properties that will be passed to the scanner, 
+            # Put one key=value per line, example:
+            sonar.exclusions=**/*.java
+            sonar.java.binaries=.
+      - task: SonarQubePublish@6
+        inputs:
+          pollingTimeoutSec: '300'
+
+      - task: SonarQubeAnalyze@6
+        inputs:
+          jdkversion: 'JAVA_HOME_17_X64'
 
       - task: Maven@4
         inputs:
