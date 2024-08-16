@@ -5,6 +5,7 @@ trigger:
 
 pool:
   name: Devops
+  demands: []
 
 stages:
 - stage: Build 
@@ -52,7 +53,6 @@ stages:
         sonarQubeRunAnalysis: false
 
   - job: CopyArtifacts
-    pool: Devops
     dependsOn: Maven
     displayName: CopyArtifacts
     steps:
