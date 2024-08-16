@@ -51,6 +51,11 @@ stages:
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
+    - script: |
+        echo "Listing workspace directory:"
+        ls -al $(Build.SourcesDirectory)
+        displayName: 'List workspace directory'
+    
 
   - job: CopyArtifacts
     dependsOn: Maven
