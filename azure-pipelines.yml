@@ -70,11 +70,11 @@ stages:
         targetFolder: $(Build.ArtifactStagingDirectory) 
     - script: echo "$(Build.SourcesDirectory) and $(Build.ArtifactStagingDirectory)"    
     
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
+    #- task: PublishBuildArtifacts@1
+    #  inputs:
+    #    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    #    ArtifactName: 'drop'
+    #    publishLocation: 'Container'
 
     - task: AzureCLI@2
       inputs:
