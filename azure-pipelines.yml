@@ -63,5 +63,5 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          az storage blob upload-batch --account-name devopsstorage887766 --account-key $(STORAGE_KEY) --destination devops --source ./*.jar
+          az storage blob upload-batch --account-name devopsstorage887766 --account-key $(STORAGE_KEY) --destination devops --source /home/linuxuser/_work/1/s/target/*.jar
     
