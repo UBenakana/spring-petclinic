@@ -9,39 +9,23 @@ pool:
 stages:
 - stage: Build 
   jobs:
-  - job: sonarqube-analysis
+  - job: sonarqube
+    displayName: sonarqube-analysis
     timeoutInMinutes: 10 # Adjust this if your build takes longer
     steps:
-      - task: SonarQubePrepare@6
-        inputs:
-          SonarQube: 'SonarQube'
-          scannerMode: 'CLI'
-          configMode: 'manual'
-          cliProjectKey: 'Petclinic'
-          cliProjectName: 'Petclinic'
-          cliSources: '.'
-          extraProperties: |
-            # Additional properties that will be passed to the scanner, 
-            # Put one key=value per line, example:
-            sonar.exclusions=**/*.java
-            sonar.java.binaries=.
-      - task: SonarQubePublish@6
-        inputs:
-          pollingTimeoutSec: '300'
+     - task: SonarQubePrepare@6
+       inputs:
+         SonarQube: 'Sonarqube'
+         scannerMode: 'CLI'
+         configMode: 'manual'
+         cliProjectKey: 'Petclinic'
+         cliProjectName: 'Petclinic'
+         cliSources: '.'
+        
+     - task: SonarQubePublish@6
+       inputs:
+         pollingTimeoutSec: '300'
 
-      - task: SonarQubeAnalyze@6
-        inputs:
-          jdkversion: 'JAVA_HOME_17_X64'
-
-  - job: sonarqube-analysis
-    timeoutInMinutes: 10 # Adjust this if your build takes longer
-    steps:      
-      - task: Maven@4
-        inputs:
-          mavenPomFile: 'pom.xml'
-          publishJUnitResults: true
-          testResultsFiles: '**/surefire-reports/TEST-*.xml'
-          javaHomeOption: 'JDKVersion'
-          mavenVersionOption: 'Default'
-          mavenAuthenticateFeed: false
-          effectivePomSkip: false
+     - task: SonarQubeAnalyze@6
+       inputs:
+         jdkversion: 'JAVA_HOME_17_X64'
