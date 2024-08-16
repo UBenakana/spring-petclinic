@@ -88,7 +88,9 @@ stages:
         containerRegistry: 'Docker'
         repository: 'udaykumarreddy995/javaapp77'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        tags: |
+          $(Build.BuildId)
     - script: docker images
       displayName: 'list the docker images' 
     
