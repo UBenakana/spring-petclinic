@@ -52,6 +52,7 @@ stages:
         sonarQubeRunAnalysis: false
 
   - job: CopyArtifacts
+    pool: Devops
     dependsOn: Maven
     displayName: CopyArtifacts
     steps:
