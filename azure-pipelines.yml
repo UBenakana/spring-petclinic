@@ -54,7 +54,7 @@ stages:
     - script: |
         echo "Listing workspace directory:"
         ls -al $(Build.SourcesDirectory)
-        displayName: 'List workspace directory'
+      displayName: 'List workspace directory'
     
 
   - job: CopyArtifacts
