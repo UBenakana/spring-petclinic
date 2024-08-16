@@ -1,4 +1,4 @@
-name: spring-petclinic
+name: spring-petclinic-$(build.buildId)
 
 trigger:
 - main
@@ -57,10 +57,11 @@ stages:
     displayName: CopyArtifacts
     steps:
     - checkout: none
-    - task: AzureFileCopy@6
+    - task: AzureCLI@2
       inputs:
-        SourcePath: '*'
         azureSubscription: 'Azure'
-        Destination: 'AzureBlob'
-        storage: 'devopsstorage887766'
-        ContainerName: 'devops'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az storage blob upload-batch --account-name devopsstorage887766 --account-key $(STORAGE_KEY) --destination devops --source *
+    
