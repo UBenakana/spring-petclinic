@@ -77,4 +77,18 @@ stages:
         scriptLocation: 'inlineScript'
         inlineScript: |
           az storage blob upload-batch --account-name devopsstorage887766 --account-key $(STORAGE_KEY) --destination devops/$(Build.BuildId) --source $(Build.ArtifactStagingDirectory)
+
+- stage: Docker
+  jobs:
+  - job: DockerImage
+    steps:
+    - task: Docker@2
+      displayName: 'Build and push dockerimage to docker hub and ACR'
+      inputs:
+        containerRegistry: 'Docker'
+        repository: 'udaykumarreddy995/javaapp77'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+    - script: docker images
+      displayName: 'list the docker images' 
     
