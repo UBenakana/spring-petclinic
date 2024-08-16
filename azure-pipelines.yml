@@ -55,6 +55,7 @@ stages:
     dependsOn: Maven
     displayName: CopyArtifacts
     steps:
+    - checkout: none
     - task: AzureFileCopy@6
       inputs:
         SourcePath: '*'
