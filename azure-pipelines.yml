@@ -50,3 +50,15 @@ stages:
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
+
+  - job: CopyArtifacts
+    dependsOn: Maven
+    displayName: CopyArtifacts
+    steps:
+    - task: AzureFileCopy@6
+      inputs:
+        SourcePath: '*'
+        azureSubscription: 'Azure'
+        Destination: 'AzureBlob'
+        storage: 'devopsstorage887766'
+        ContainerName: 'devops'
