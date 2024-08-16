@@ -9,7 +9,7 @@ pool:
 stages:
 - stage: Build 
   jobs:
-  - job: sonarqube
+  - job: Sonarqube
     displayName: sonarqube-analysis
     timeoutInMinutes: 10 # Adjust this if your build takes longer
     steps:
@@ -34,3 +34,19 @@ stages:
      - task: SonarQubeAnalyze@6
        inputs:
          jdkversion: 'JAVA_HOME_17_X64'
+
+  - job: Maven
+    dependsOn: Sonarqube
+    displayName: Java Artifact with Maven
+    timeoutInMinutes: 10 # Adjust this if your build takes longer
+    steps:
+    - task: Maven@4
+      inputs:
+        mavenPomFile: 'pom.xml'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
