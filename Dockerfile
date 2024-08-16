@@ -5,7 +5,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the JAR file from the target directory to the container
-COPY target/*.jar app.jar
+COPY $(Build.ArtifactStagingDirectory) app.jar
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
