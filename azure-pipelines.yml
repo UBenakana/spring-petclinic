@@ -60,18 +60,21 @@ stages:
     
     - task: CopyFiles@2
       inputs:
-        sourceFolder: $(Build.SourcesDirectory)
+        sourceFolder: $(Build.SourcesDirectory)/target
+        contents: '*.jar'
         targetFolder: $(Build.ArtifactStagingDirectory)   
+    
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-    #- task: AzureCLI@2
-    #  inputs:
-    #    azureSubscription: 'Azure'
-    #    scriptType: 'bash'
-    #    scriptLocation: 'inlineScript'
-    #    inlineScript: |
-    #      az storage blob upload-batch --account-name devopsstorage887766 --account-key $(STORAGE_KEY) --destination devops --source ./*.jar
+
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'Azure'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az storage blob upload-batch --account-name devopsstorage887766 --account-key $(STORAGE_KEY) --destination devops/$(Build.BuildId) --source $(Build.ArtifactStagingDirectory)
     
