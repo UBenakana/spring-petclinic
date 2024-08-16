@@ -62,7 +62,8 @@ stages:
       inputs:
         sourceFolder: $(Build.SourcesDirectory)/target
         contents: '*.jar'
-        targetFolder: $(Build.ArtifactStagingDirectory)   
+        targetFolder: $(Build.ArtifactStagingDirectory) 
+    - script: echo "$(Build.SourcesDirectory) and $(Build.ArtifactStagingDirectory)"    
     
     - task: PublishBuildArtifacts@1
       inputs:
@@ -88,7 +89,7 @@ stages:
         containerRegistry: 'Docker'
         repository: 'udaykumarreddy995/javaapp77'
         command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        Dockerfile: '**/Dockerfile'
         tags: |
           $(Build.BuildId)
     - script: docker images
