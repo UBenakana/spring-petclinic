@@ -25,6 +25,12 @@ stages:
           # Put one key=value per line, example:
           # sonar.exclusions=**/*.bin
           sonar.java.binaries=.
-    - script: bash |
-        echo "SonarQube Analysis"
     
+
+    - task: SonarQubePublish@6
+      inputs:
+        pollingTimeoutSec: '300'
+
+    - task: SonarQubeAnalyze@6
+      inputs:
+        jdkversion: 'JAVA_HOME_17_X64'
