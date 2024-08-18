@@ -36,6 +36,7 @@ stages:
         jdkversion: 'JAVA_HOME_17_X64'
 
   - job: Maven
+    dependsOn: Sonarqube
     displayName: 'Build the Artifact'
     steps:
     - task: Maven@4
