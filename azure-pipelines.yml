@@ -34,3 +34,17 @@ stages:
     - task: SonarQubeAnalyze@6
       inputs:
         jdkversion: 'JAVA_HOME_17_X64'
+
+  - job: Maven
+    displayName: 'Build the Artifact'
+    steps:
+    - task: Maven@4
+      inputs:
+        mavenPomFile: 'pom.xml'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
