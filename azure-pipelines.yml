@@ -43,11 +43,11 @@ stages:
         effectivePomSkip: false
         sonarQubeRunAnalysis: false    
 
-- stage: Artifacts
-  jobs:
-  - job: UploadArtifacts
-    displayName: 'Upload Build Artifacts To Azure Storage'
-    steps:
+#- stage: Artifacts
+#  jobs:
+#  - job: UploadArtifacts
+#    displayName: 'Upload Build Artifacts To Azure Storage'
+#    steps:
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'Azure'
