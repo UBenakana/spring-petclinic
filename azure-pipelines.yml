@@ -49,3 +49,12 @@ stages:
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
+
+    - task: AzureCLI@2
+      inputs:
+          azureSubscription: 'Azure'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az storage blob upload-batch --account-name $(STORAGE) --account-key $(STORAGE_KEY) --destination devops/$(Build.BuildId) --source $(Build.SourcesDirectory)/target --pattern *.jar
+      
