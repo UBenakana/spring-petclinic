@@ -8,10 +8,10 @@ pool:
 
 stages:
 
-- stage: Sonarqube
+- stage: Build
   jobs:
-  - job: Sonarqube
-    displayName: sonarqube-analysis
+  - job: BuildAndAnalyze
+    displayName: 'Build and Analyze'
     steps:
     - task: SonarQubePrepare@6
       inputs:
@@ -22,27 +22,8 @@ stages:
         cliProjectName: 'Petclinic'
         cliSources: '.'
         extraProperties: |
-          # Additional properties that will be passed to the scanner, 
-          # Put one key=value per line, example:
-          # sonar.exclusions=**/*.bin
           sonar.java.binaries=.
-    
 
-    - task: SonarQubePublish@6
-      inputs:
-        pollingTimeoutSec: '300'
-
-    - task: SonarQubeAnalyze@6
-      inputs:
-        jdkversion: 'JAVA_HOME_17_X64'
-
-
-- stage: Maven
-  jobs:
-  - job: Maven
-    dependsOn: Sonarqube
-    displayName: 'Build the Artifact'
-    steps:
     - task: Maven@4
       inputs:
         mavenPomFile: 'pom.xml'
@@ -54,30 +35,34 @@ stages:
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
 
+    - task: SonarQubeAnalyze@6
+      inputs:
+        jdkversion: 'JAVA_HOME_17_X64'
+
+    - task: SonarQubePublish@6
+      inputs:
+        pollingTimeoutSec: '300'
 
 - stage: Artifacts
   jobs:
-  - job: Artifacts
-    dependsOn: Maven
+  - job: UploadArtifacts
     displayName: 'Upload Build Artifacts To Azure Storage'
     steps:
     - task: AzureCLI@2
       inputs:
-          azureSubscription: 'Azure'
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: |
-            az storage blob upload-batch --account-name $(STORAGE) --account-key $(STORAGE_KEY) --destination devops/$(Build.BuildId) --source $(Build.SourcesDirectory)/target --pattern *.jar
-
+        azureSubscription: 'Azure'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az storage blob upload-batch --account-name $(STORAGE) --account-key $(STORAGE_KEY) --destination devops/$(Build.BuildId) --source $(Build.SourcesDirectory)/target --pattern *.jar
 
 - stage: Docker
   jobs:
-  - job: DockerImage
-    dependsOn: Artifacts
+  - job: BuildAndPushImage
+    displayName: 'Build and Push Docker Image'
     steps:
-    - checkout: none
     - task: Docker@2
-      displayName: 'Build and push dockerimage to docker hub and ACR'
+      displayName: 'Build and push docker image to docker hub and ACR'
       inputs:
         containerRegistry: 'Docker'
         repository: 'udaykumarreddy995/javaapp77'
@@ -86,4 +71,4 @@ stages:
         tags: |
           $(Build.BuildId)
     - script: docker images
-      displayName: 'list the docker images'
+      displayName: 'List the docker images'
