@@ -61,6 +61,7 @@ stages:
   - job: BuildAndPushImage
     displayName: 'Build and Push Docker Image'
     steps:
+    - checkout: none
     - task: Docker@2
       displayName: 'Build and push docker image to docker hub and ACR'
       inputs:
