@@ -24,6 +24,14 @@ stages:
         extraProperties: |
           sonar.java.binaries=.
 
+    - task: SonarQubeAnalyze@6
+      inputs:
+        jdkversion: 'JAVA_HOME_17_X64'
+
+    - task: SonarQubePublish@6
+      inputs:
+        pollingTimeoutSec: '300'
+
     - task: Maven@4
       inputs:
         mavenPomFile: 'pom.xml'
@@ -33,15 +41,7 @@ stages:
         mavenVersionOption: 'Default'
         mavenAuthenticateFeed: false
         effectivePomSkip: false
-        sonarQubeRunAnalysis: false
-
-    - task: SonarQubeAnalyze@6
-      inputs:
-        jdkversion: 'JAVA_HOME_17_X64'
-
-    - task: SonarQubePublish@6
-      inputs:
-        pollingTimeoutSec: '300'
+        sonarQubeRunAnalysis: false    
 
 - stage: Artifacts
   jobs:
