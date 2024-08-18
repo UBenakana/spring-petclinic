@@ -7,7 +7,8 @@ pool:
   name: Devops
 
 stages:
-- stage: Build 
+
+- stage: Sonarqube
   jobs:
   - job: Sonarqube
     displayName: sonarqube-analysis
@@ -35,6 +36,9 @@ stages:
       inputs:
         jdkversion: 'JAVA_HOME_17_X64'
 
+
+- stage: Maven
+  jobs:
   - job: Maven
     dependsOn: Sonarqube
     displayName: 'Build the Artifact'
@@ -50,6 +54,13 @@ stages:
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
 
+
+- stage: Artifacts
+  jobs:
+  - job: Artifacts
+    dependsOn: Maven
+    displayName: 'Upload Build Artifacts To Azure Storage'
+    steps:
     - task: AzureCLI@2
       inputs:
           azureSubscription: 'Azure'
@@ -58,9 +69,11 @@ stages:
           inlineScript: |
             az storage blob upload-batch --account-name $(STORAGE) --account-key $(STORAGE_KEY) --destination devops/$(Build.BuildId) --source $(Build.SourcesDirectory)/target --pattern *.jar
 
+
 - stage: Docker
   jobs:
   - job: DockerImage
+    dependsOn: Artifacts
     steps:
     - checkout: none
     - task: Docker@2
