@@ -73,3 +73,10 @@ stages:
           $(Build.BuildId)
     - script: docker images
       displayName: 'List the docker images'
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'ACR'
+        repository: 'javaapp1.azurecr.io'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
