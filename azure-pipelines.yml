@@ -47,6 +47,7 @@ stages:
     dependsOn: BuildAndAnalyze
     displayName: 'push artifact to Azure Storage'
     steps:
+    - checkout: none
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'Azure'
