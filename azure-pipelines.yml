@@ -42,3 +42,18 @@ stages:
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
+
+  - job: AzureStorage
+    displayName: 'push artifact to Azure Storage'
+    steps:
+    - task: AzureFileCopy@6
+      inputs:
+        SourcePath: '$(Build.SourcesDirectory)/target'
+        azureSubscription: 'Azure'
+        Destination: 'AzureBlob'
+        storage: 'azurestorage887766'
+        ContainerName: 'artifacts'
+        BlobPrefix: '$(Build.BuildId)'
+        AdditionalArgumentsForBlobCopy: '--parameter */.jar'
+
+      
